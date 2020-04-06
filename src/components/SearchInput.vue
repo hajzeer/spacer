@@ -26,6 +26,8 @@ export default {
     border: 0;
     background: none;
     border-bottom: 1.5px solid whitesmoke;
+    color: whitesmoke;
+    text-align: center;
+    }
   }
-}
 </style>

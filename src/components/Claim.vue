@@ -28,7 +28,7 @@ export default {
     }
 
     .claim {
-        font-size: 50px;
+        font-size: 60px;
         margin: 0;
     }
 
