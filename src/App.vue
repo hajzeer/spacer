@@ -1,32 +1,68 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div class="wrapper">
+      <Claim/>
+      <SearchInput/>
     </div>
-    <router-view/>
-  </div>
 </template>
 
+<script>
+import axios from 'axios';
+import debounce from 'lodash.debounce';
+
+import Claim from './components/Claim.vue'
+import SearchInput from './components/SearchInput.vue'
+
+const API = 'https://images-api.nasa.gov/search';
+
+
+export default {
+  name: 'App',
+  data() {
+    return {
+      searchValue: '',
+      resoults: [],
+    };
+  },
+  components: {
+    Claim,
+    SearchInput,
+  },
+
+  methods: {
+    handleInput: debounce(function() {
+      axios.get(`${API}?q=${this.searchValue}&media_type=image`)
+        .then((response) => {
+          this.resoults = response.data.collection.items;
+          console.log(this.resoult)
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }, 500),
+  },
+};
+</script>
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+*{
+  box-sizing: border-box;
 }
-
-#nav {
+.wrapper{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
   padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+  width: 100%;
+  height: 100vh;
+  background-image: url('./assets/heroimage.jpg');
+  background-repeat: no-repeat;
+  background-size:cover;
+  background-position: 80% 0%;
+}
+body{
+  font-family: 'Montserrat', sans-serif;
+  margin: 0;
+  padding: 0;
 }
 </style>
