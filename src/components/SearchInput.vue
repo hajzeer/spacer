@@ -1,33 +1,70 @@
 <template>
-    <div class="search">
-      <input
-        id="search"
-        name="search"
-        v-model="searchValue"
-        @input="handleInput"
-      />
-    </div>
+    <input
+      id="search"
+      name="search"
+      :class="{ dark }"
+      :value="value"
+      @input="handleChange"
+    />
 </template>
 
 <script>
 export default {
-    name: 'SearchInput',
-}
+  name: 'SearchInput',
+
+  props: {
+    value: {
+      type: String,
+      required: true,
+    },
+
+    dark: {
+      type: Boolean,
+      defoult: false,
+    },
+  },
+
+  methods: {
+    handleChange(e) {
+      this.$emit('input', e.target.value);
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-.search{
+input{
+  margin-top: 40px;
   display: flex;
-  flex-direction: column;
   width: 300px;
+  border: 0;
+  background: none;
+  border-bottom: 1.5px solid whitesmoke;
+  color: whitesmoke;
+  text-align: center;
+  font-size: 17px;
+  font-weight: 400;
+  transition: box-shadow .3s ease-out;
 
-  input{
-    height: 30px;
-    border: 0;
-    background: none;
-    border-bottom: 1.5px solid whitesmoke;
-    color: whitesmoke;
-    text-align: center;
-    }
+  @media (min-width: 1024px) {
+    font-size: 20px;
   }
+}
+
+input:focus {
+  outline: none;
+  box-shadow: 0 10px 20px -8px rgba(255, 255, 255, .4);
+}
+
+.dark {
+  background: none;
+  color: black;
+  border-bottom-color: black;
+}
+
+.dark:focus {
+  outline: none;
+  background: none;
+  box-shadow: 0 10px 20px -8px rgba(0, 0, 0, .4);
+}
 </style>
