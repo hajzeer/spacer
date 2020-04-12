@@ -1,14 +1,17 @@
 <template>
     <div class="outerWrapper">
         <div class="innerWrapper">
-            <div class="photo">
+            <div class="photo" v-if="!showMore">
                 <img :src="photo" alt="" />
             </div>
-            <div class="description">
+            <div class="description" @click="handleShowMore()">
                 <h2 class="title">{{ title }}</h2>
-                <p class="description">
-                    {{ description }}
+                <p class="description" v-if="!showMore">
+                    {{ description.slice(0, 200) }}
                 </p>
+                <span v-if="showMore">
+                    {{ description }}
+                </span>
             </div>
         </div>
         <div class="close" @click="$emit('closeModal')"/>
@@ -30,14 +33,22 @@ export default {
       photo: null,
       title: null,
       description: null,
+      showMore: false,
     };
   },
 
   mounted() {
     this.photo = this.item.links[0].href;
     this.title = this.item.data[0].title;
-    this.description = this.item.data[0].description.substring(0, 200);
+    this.description = this.item.data[0].description;
   },
+
+  methods: {
+    handleShowMore() {
+      this.showMore = true;
+    },
+  },
+
 };
 </script>
 
@@ -100,11 +111,37 @@ export default {
         flex-direction: column;
 
         @media (min-width: 1024px) {
-        flex-direction: row;
+            flex-direction: row;
 
             .photo {
-                max-width: 50%;
+                min-width: 50%;
                 margin-right: 20px;
+            }
+
+            .description {
+                span {
+                    font-size: 20px;
+                }
+            }
+        }
+
+        .description {
+            color: black;
+            cursor: pointer;
+
+            p {
+                text-align: justify;
+            }
+
+            span {
+                font-size: 9px;
+            }
+        }
+        @media (min-width: 1024px) {
+            .description {
+                span {
+                    font-size: 15px;
+                }
             }
         }
 
@@ -117,9 +154,5 @@ export default {
                 width: 100%;
             }
         }
-    }
-
-    .description {
-        color: black;
     }
 </style>

@@ -44,6 +44,7 @@ export default {
     return {
       modalOpen: false,
       modalItem: null,
+      showMore: false,
       loading: false,
       step: 0,
       searchValue: '',
